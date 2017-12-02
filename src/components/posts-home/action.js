@@ -4,3 +4,10 @@ export function setCategories(categories) {
     categories
   }
 }
+
+export function handlePostModalState(isPostModalOpen) {
+  return {
+    type: 'HANDLE_POST_MODAL_STATE',
+    isPostModalOpen,
+  };
+}

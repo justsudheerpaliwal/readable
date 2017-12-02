@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import Header from '../header';
 import PostsList from '../posts-list';
 import CatagoryList from '../catagory-list';
+import CreatePostsModal from '../create-posts';
 import request from '../../utils/request';
-import { setCategories } from './action';
+import { setCategories, handlePostModalState } from './action';
 
 async function fetchcategories() {
   const requestURL = `/categories`;
@@ -27,7 +28,8 @@ class PostsHome extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header handlePostModalState={this.props.handlePostModalState} isPostModalOpen={this.props.isPostModalOpen}/>
+        <CreatePostsModal handlePostModalState={this.props.handlePostModalState} isPostModalOpen={this.props.isPostModalOpen} />
         <CatagoryList style={{ margin: '5em', textAlign: 'center' }} categories={this.props.categories} />
         <PostsList />
       </div>
@@ -36,14 +38,17 @@ class PostsHome extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { postHome } = state;
   return {
-    categories: state.postHome && state.postHome.categories,
+    categories: postHome && postHome.categories,
+    isPostModalOpen: postHome && postHome.isPostModalOpen,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setcategories: data => dispatch(setCategories(data)),
+    handlePostModalState: data => dispatch(handlePostModalState(data)),
   };
 }
 
